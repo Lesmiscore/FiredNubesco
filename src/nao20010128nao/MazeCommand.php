@@ -29,13 +29,21 @@ class MazeCommand extends Command implements PluginIdentifiableCommand
 	
 	public function execute(CommandSender $sender, $label, array $args)
 	{
-		if(!isset($args[0]) or !isset($args[1]))
+		if(!isset($args[0]))
 		{
 			if(!$this->checkPermission($sender)) return true;
 			$sender->sendMessage(TextFormat::GREEN . "[FiredNubesco] Usage: /maze <id>[:<damage>] [<wall(inside|outside|none)> [<under(true|false)> [<top(true|false)>]]]");
 			return false;
 		}
-	
+		$generator=null;
+		switch(mt_rand(0,1)){
+		//まだ1個しかないのでこのまま
+		case 0;
+		case 1;
+			$generator=new MazeGen1();
+			break;
+		}
+		
 	}
 
 	public function getPlugin(){
