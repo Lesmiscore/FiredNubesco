@@ -44,6 +44,12 @@ class MazeGen1
 				$tmpX--;
 				break;
 			}
+			if(!isset($result[$tmpX])){
+				continue;
+			}
+			if(!isset($result[$tmpX][$tmpY])){
+				continue;
+			}
 			if($result[$tmpX][$tmpY]){
 				//既に道
 				$stopped++;
