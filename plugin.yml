@@ -1,14 +1,17 @@
-name: PluginName
+name: FiredNubesco
 main: nao20010128nao\PluginMain
 version: 1.0.1
 api: [1.0.0]
 load: STARTUP
-author: nao20010128nao
+author: Makes mazes inside the world
 description: DESC
 website: https://github.com/nao20010128nao
 permissions:
- oa.*:
+ fn.*:
   children:
-   oa.all:
+   fn.maze:
+    description: ""
+    default: op
+   fn.undo:
     description: ""
     default: op
