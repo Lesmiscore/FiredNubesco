@@ -21,8 +21,8 @@ class MazeGen1
 				$result[$x][$y]=false;
 			}
 		}
-		$startX=mt_rand(0,$width-1);
-		$startZ=mt_rand(1,$height-1);
+		$startX=mt_rand(0,$width/2-1)*2;//偶数にする
+		$startZ=mt_rand(0,$height/2-1)*2;//偶数にする
 		$nowX=$startX;
 		$nowY=$startY;
 		$stopped=0;//永遠ループ防止
