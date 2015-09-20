@@ -5,6 +5,8 @@ namespace nao20010128nao;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat;
+use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\block\BlockPlaceEvent;
 
 // FiredNubesco (放火されたヌベスコ) English (英語版)
 class PluginMain extends PluginBase implements Listener
@@ -32,7 +34,7 @@ class PluginMain extends PluginBase implements Listener
 	}
 	public function onDisable(){
 		$d=array("id"=>$this->id);
-		yaml_emit_file($d,$this->getDataFolder()."/config.yml");
+		yaml_emit_file($this->getDataFolder()."/config.yml",$d);
 	}
 	public function blockBreak(BlockBreakEvent $event){//1
 		$id = $event->getItem()->getId();

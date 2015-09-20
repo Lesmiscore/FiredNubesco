@@ -8,6 +8,7 @@ use pocketmine\command\ConsoleCommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 
 use pocketmine\Player;
+use pocketmine\block\Block;
 
 use pocketmine\utils\TextFormat;
 
@@ -46,6 +47,8 @@ class MazeCommand extends Command implements PluginIdentifiableCommand
 			break;
 		}
 		$size=$this->plugin->countBlocks($sender);
+		$sa=$this->plugin->data[$sender][1];
+		$ea=$this->plugin->data[$sender][2];
 		$block=$this->getBlockInfo($args[0]);
 		$wall=0;
 		if(isset($args[1])){
@@ -70,13 +73,39 @@ class MazeCommand extends Command implements PluginIdentifiableCommand
 				$top=true;
 			}
 		}
-		$this->plugin->getServer()->broadcastMessage("[FiredNubesco] Generating maze...");
+		$this->plugin->getServer()->broadcastMessage("[FiredNubesco] ".$sender->getName().": Generating maze on the memory...");
 		if($wall==1){//内部に作る場合、壁の分減らす
 			$size[0]=$size[0]-2;
 			$size[1]=$size[1]-2;
 		}
+		$maze=$generator->generate($size[0],$size[1]);
+		$this->plugin->getServer()->broadcastMessage("[FiredNubesco] ".$sender->getName().": Creating maze on the world...");
+		$this->run1($maze,$this->plugin->data[$sender],$block);
+		$this->plugin->getServer()->broadcastMessage("[FiredNubesco] Complete!");
 	}
-
+	function run1($maze,$pos,$block){
+		$sx = min($pos[1][0], $pos[2][0]);
+		$sy = min($pos[1][1], $pos[2][1]);
+		$sz = min($pos[1][2], $pos[2][2]);
+		$ex = max($pos[1][0], $pos[2][0]);
+		$ey = max($pos[1][1], $pos[2][1]);
+		$ez = max($pos[1][2], $pos[2][2]);
+		$level = $player->getLevel();
+		if(count($did) != 2){
+			$block = Block::get($block[0]);
+		}else{
+			$block = Block::get($block[0], $block[1]);
+		}
+		for($x = $sx; $x <= $ex; ++$x){
+			for($y = $sy; $y <= $ey; ++$y){
+				for($z = $sz; $z <= $ez; ++$z){
+					$posi = new Vector3($x, $y, $z);
+					if($maze[$sx-$x][$sy-$y])
+						$level->setBlock($posi, $block);
+				}
+			}
+		}
+	}
 	public function getPlugin(){
 		return $this->plugin;
 	}
